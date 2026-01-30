@@ -13,7 +13,8 @@ if (!NETX_BASE_URL || !NETX_TOKEN) {
   process.exit(1);
 }
 
-const url = `${NETX_BASE_URL.replace(/\/$/, "")}/api/records/search`;
+const base = NETX_BASE_URL.replace(/\/$/, "");
+const url = base.endsWith("/api/rpc") ? base : `${base}/api/rpc`;
 
 const body = {
   query: "*",
