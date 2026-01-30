@@ -17,9 +17,13 @@ const base = NETX_BASE_URL.replace(/\/$/, "");
 const url = base.endsWith("/api/rpc") ? base : `${base}/api/rpc`;
 
 const body = {
-  query: "*",
-  pageSize: 0,
-  facets: [{ field: FACET_FIELD, size: FACET_SIZE }]
+  method: "records.search",
+  params: [{
+    query: "*",
+    pageSize: 0,
+    facets: [{ field: FACET_FIELD, size: FACET_SIZE }]
+  }],
+  id: 1
 };
 
 const res = await fetch(url, {
