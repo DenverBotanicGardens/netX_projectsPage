@@ -7,15 +7,6 @@ const ATTRIBUTE_ID = 23;
 const rpcUrl = `${NETX_BASE_URL.replace(/\/$/, "")}/api/rpc`;
 
 async function rpcCall(method, params) {
-
-await fs.mkdir("site", { recursive: true });
-await fs.writeFile(
-  "site/debug_values_result.json",
-  JSON.stringify(result, null, 2),
-  "utf8"
-);
-console.log("Debug: wrote site/debug_values_result.json");
-
   const res = await fetch(rpcUrl, {
     method: "POST",
     headers: {
@@ -55,6 +46,13 @@ console.log("Debug: wrote site/debug_values_result.json");
     );
 
   await fs.mkdir("site", { recursive: true });
+
+  await fs.writeFile(
+    "site/debug_values_result.json",
+    JSON.stringify(result, null, 2),
+    "utf8"
+  );
+  console.log("Debug: wrote site/debug_values_result.json");
 
   await fs.writeFile(
     "site/projects.json",
