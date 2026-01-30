@@ -39,6 +39,11 @@ if (!res.ok) {
 
 const json = await res.json();
 
+await fs.mkdir("site", { recursive: true });
+await fs.writeFile("site/debug_raw_response.json", JSON.stringify(json, null, 2), "utf8");
+console.log("Facet keys returned:", json.facets ? Object.keys(json.facets) : []);
+
+
 // DEBUG: write the full response so we can see facet structure
 await fs.writeFile("site/debug_raw_response.json", JSON.stringify(json, null, 2), "utf8");
 
