@@ -35,15 +35,12 @@ async function rpcCall(method, params) {
     { page: { startIndex: 0, size: 5000 } }
   ]);
 
-  const projects = (result.results || [])
-    .map(v => ({
-      value: v.value,
-      count: v.count ?? 0
-    }))
-    .filter(p => p.value)
-    .sort((a, b) =>
-      a.value.localeCompare(b.value, undefined, { sensitivity: "base" })
-    );
+const projects = (result.results || [])
+  .map(v => ({ value: v.value, count: v.count ?? 0 }))
+  .filter(p => p.value && String(p.value).trim().length > 0)
+  .sort((a, b) =>
+    String(a.value).localeCompare(String(b.value), undefined, { sensitivity: "base" })
+  );
 
   await fs.mkdir("site", { recursive: true });
 

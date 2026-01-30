@@ -37,7 +37,7 @@
         const filtered = projects.filter(p => p.value.toLowerCase().includes(f));
         for (const p of filtered) {
           const li = document.createElement('li');
-          li.textContent = `${p.value} (${p.count})`;
+          li.textContent = li.textContent = p.value;
           list.appendChild(li);
         }
         meta.textContent = `${filtered.length} of ${projects.length} projects` + (updated ? ` • Updated ${updated}` : '');
