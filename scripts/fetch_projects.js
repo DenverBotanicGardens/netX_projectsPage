@@ -39,6 +39,13 @@ if (!res.ok) {
 
 const json = await res.json();
 
+// DEBUG: write the full response so we can see facet structure
+await fs.writeFile("site/debug_raw_response.json", JSON.stringify(json, null, 2), "utf8");
+
+// DEBUG: show what keys NetX returned under facets
+console.log("Facet keys returned:", json.facets ? Object.keys(json.facets) : []);
+
+
 // Adjust this extractor if your NetX facet response shape differs
 const facetBuckets =
   (json.facets && (json.facets[FACET_FIELD] || json.facets?.[FACET_FIELD])) ||
