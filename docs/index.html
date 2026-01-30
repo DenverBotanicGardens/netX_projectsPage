@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>NetX Projects</title>
+  <style>
+    body { font-family: system-ui, sans-serif; margin: 2rem; }
+    input { padding: .6rem; width: min(520px, 100%); }
+    ul { padding-left: 1.2rem; }
+    li { margin: .25rem 0; }
+    .meta { opacity: .7; font-size: .9rem; margin-top: .5rem; }
+  </style>
+</head>
+<body>
+  <h1>Projects</h1>
+  <input id="q" placeholder="Filter projects…" />
+  <div class="meta" id="meta"></div>
+  <ul id="list"></ul>
+
+  <script>
+    async function main() {
+      const res = await fetch('./projects.json', { cache: 'no-store' });
+      if (!res.ok) throw new Error('Could not load projects.json');
+      const data = await res.json();
+
+      const projects = data.projects || [];
+      const updated = data.updated_at || null;
+
+      const list = document.getElementById('list');
+      const meta = document.getElementById('meta');
+      const q = document.getElementById('q');
+
+      function render(filterText = '') {
+        list.innerHTML = '';
+        const f = filterText.trim().toLowerCase();
+        const filtered = projects.filter(p => p.value.toLowerCase().includes(f));
+        for (const p of filtered) {
+          const li = document.createElement('li');
+          li.textContent = `${p.value} (${p.count})`;
+          list.appendChild(li);
+        }
+        meta.textContent = `${filtered.length} of ${projects.length} projects` + (updated ? ` • Updated ${updated}` : '');
+      }
+
+      q.addEventListener('input', () => render(q.value));
+      render();
+    }
+
+    main().catch(err => {
+      document.body.insertAdjacentHTML('beforeend', `<p style="color:crimson">${err.message}</p>`);
+    });
+  </script>
+</body>
+</html>
