@@ -35,7 +35,7 @@ async function rpcCall(method, params) {
     { page: { startIndex: 0, size: 5000 } }
   ]);
 
-  const projects = (result.items || [])
+  const projects = (result.results || [])
     .map(v => ({
       value: v.value,
       count: v.count ?? 0
@@ -46,13 +46,6 @@ async function rpcCall(method, params) {
     );
 
   await fs.mkdir("site", { recursive: true });
-
-  await fs.writeFile(
-    "site/debug_values_result.json",
-    JSON.stringify(result, null, 2),
-    "utf8"
-  );
-  console.log("Debug: wrote site/debug_values_result.json");
 
   await fs.writeFile(
     "site/projects.json",
